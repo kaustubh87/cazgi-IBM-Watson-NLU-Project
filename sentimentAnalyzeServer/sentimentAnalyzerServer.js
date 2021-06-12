@@ -35,20 +35,80 @@ app.get("/",(req,res)=>{
   });
 
 app.get("/url/emotion", (req,res) => {
+    const payload = {
+        'url': req.query.url,
+        'features': {
+            'emotion': {
+                'limit':7
+            }
+        }
+    }
+    
+    getNLUInstance().analyze(payload)
+        .then(results => {
+            return res.send(results.result.emotion.document.emotion);
+        })
+        .catch(err => {
+            console.log('error:', err);
+        });
 
-    return res.send({"happy":"90","sad":"10"});
 });
 
 app.get("/url/sentiment", (req,res) => {
-    return res.send("url sentiment for "+req.query.url);
+    const payload = {
+        'url': req.query.url,
+        'features': {
+            'sentiment': {
+                'limit':7
+            }
+        }
+    }
+    
+    getNLUInstance().analyze(payload)
+        .then(results => {
+            return res.send(results.result.sentiment.document.label);
+        })
+        .catch(err => {
+            console.log('error:', err);
+        });
 });
 
 app.get("/text/emotion", (req,res) => {
-    return res.send({"happy":"10","sad":"90"});
+    const payload = {
+        'text': req.query.text,
+        'features': {
+            'emotion': {
+                'limit':7
+            }
+        }
+    }
+    
+    getNLUInstance().analyze(payload)
+        .then(results => {
+            return res.send(results.result.emotion.document.emotion);
+        })
+        .catch(err => {
+            console.log('error:', err);
+        });
 });
 
 app.get("/text/sentiment", (req,res) => {
-    return res.send("text sentiment for "+req.query.text);
+    const payload = {
+        'text': req.query.text,
+        'features': {
+            'sentiment': {
+                'limit':7
+            }
+        }
+    }
+    
+    getNLUInstance().analyze(payload)
+        .then(results => {
+            return res.send(results.result.sentiment.document.label);
+        })
+        .catch(err => {
+            console.log('error:', err);
+        });
 });
 
 let server = app.listen(8080, () => {
